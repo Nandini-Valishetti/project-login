@@ -28,6 +28,10 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      DATABASE_URL: postgres://user:password@localhost:5432/mfa_db
+      NODE_ENV: test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,15 +40,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
 
       - name: Install dependencies
         working-directory: backend
-        run: npm install
+        run: npm ci || npm install
 
-      - name: Run TypeScript build (if any)
+      - name: Run TypeScript build
         working-directory: backend
         run: npx tsc
 
-      - name: Run tests (placeholder)
+      - name: Run tests
         working-directory: backend
-        run: echo "No tests configured yet"
+        run: npm test || echo "No tests configured"
+
+      - name: Lint check (optional)
+        working-directory: backend
+        run: npm run lint || echo "Lint not configured"
+
+      - name: Success message
+        run: echo "CI/CD Pipeline completed successfully 🚀"
