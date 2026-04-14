@@ -30,7 +30,6 @@ jobs:
 
     env:
       DATABASE_URL: postgres://user:password@localhost:5432/mfa_db
-      NODE_ENV: test
 
     steps:
       - name: Checkout code
@@ -44,19 +43,19 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: npm ci || npm install
+        run: npm install
 
       - name: Run TypeScript build
         working-directory: backend
         run: npx tsc
 
-      - name: Run tests
-        working-directory: backend
-        run: npm test || echo "No tests configured"
-
-      - name: Lint check (optional)
+      - name: Run lint (optional)
         working-directory: backend
         run: npm run lint || echo "Lint not configured"
 
-      - name: Success message
-        run: echo "CI/CD Pipeline completed successfully 🚀"
+      - name: Run tests
+        working-directory: backend
+        run: npm test || echo "No tests yet"
+
+      - name: Build success message
+        run: echo "CI Pipeline completed successfully 🚀"
