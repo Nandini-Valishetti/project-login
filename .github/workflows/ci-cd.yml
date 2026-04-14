@@ -23,4 +23,4 @@ jobs:
 
       - name: Build TypeScript
         working-directory: ./backend
-        run: npx tsc
+        run: npx --package typescript tsc --noEmit
